@@ -12,6 +12,8 @@ import static com.codeborne.selenide.Selenide.*;
 
 public class EmployeeSearchPage {
 
+    private final SelenideElement logOutButton = $x("//button[@id = 'logoutButton']");
+
     private final SelenideElement pageHeader = $x("//div[@class = 'app-header']");
     private final SelenideElement userInfo = $x("//strong[@id = 'authUserEmail']");
     private final SelenideElement emailSearchInput = $("[name = 'searchEmail']");
@@ -23,14 +25,6 @@ public class EmployeeSearchPage {
 
     private final SelenideElement searchButton = $("[id = 'searchButton']");
     private final SelenideElement resetButton = $("[id = 'resetSearchButton']");
-
-    private final SelenideElement skillCheckboxSelenium = $("[id = 'searchSkillSelenium']");
-    private final SelenideElement skillCheckboxApi = $("[id = 'searchSkillApi']");
-    private final SelenideElement skillCheckboxSql = $("[id = 'searchSkillSql']");
-    private final SelenideElement skillCheckboxJs = $("[id = 'searchSkillJs']");
-    private final SelenideElement skillCheckboxJava = $("[id = 'searchSkillJava']");
-    private final SelenideElement skillCheckboxManual = $("[id = 'searchSkillManual']");
-    private final SelenideElement skillCheckboxUi = $("[id = 'searchSkillUi']");
 
     private final ElementsCollection resultsTable = $$x("//table[@id = 'resultsTable']/tbody/tr");
 
@@ -99,6 +93,13 @@ public class EmployeeSearchPage {
         return this;
     }
 
+    public EmployeeSearchPage clickCheckbox(String checkboxName) {
+        $x("//input[@type='checkbox' and @value='" + checkboxName + "']").click();
+        /* единый метод для любых чекбоксов */
+
+        return this;
+    }
+
     public EmployeeSearchPage clickSearchButton() {
         searchButton.click();
 
@@ -113,6 +114,14 @@ public class EmployeeSearchPage {
         }
 
         return employees;
+    }
+
+    public LogInPage logOut() {
+        logOutButton
+                .shouldBe(visible, enabled)
+                .click();
+
+        return new LogInPage();
     }
 
     /* добавил не все проверки, осталось добавить методы для кликов на чекбоксы,

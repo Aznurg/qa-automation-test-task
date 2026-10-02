@@ -4,6 +4,7 @@ import com.codeborne.selenide.SelenideElement;
 
 import static com.codeborne.selenide.Condition.*;
 import static com.codeborne.selenide.Selenide.$x;
+import static org.testng.AssertJUnit.assertTrue;
 
 public class LogInPage {
 
@@ -26,7 +27,8 @@ public class LogInPage {
                 .shouldBe(visible, enabled)
                 .shouldHave(attribute("type", "password"))
                 /* в форме нет "глазика" для пароля, потому добавил эту проверку
-                   сюда, в случае его наличия проверку можно вынести в отдельный тест */
+                   сюда, в случае его наличия проверку переключения типа поля ввода
+                   (password/text) можно вынести в отдельный тест */
                 .sendKeys(password);
 
         return this;
@@ -54,5 +56,17 @@ public class LogInPage {
         errorAlertText
                 .shouldBe(visible)
                 .shouldHave(text(errorText));
+    }
+
+    public void checkFieldsEmpty() {
+        assertTrue(
+                emailInput
+                        .shouldBe(visible)
+                        .getText()
+                        .isEmpty() &&
+                        passwordInput
+                                .shouldBe(visible)
+                                .getText()
+                                .isEmpty());
     }
 }

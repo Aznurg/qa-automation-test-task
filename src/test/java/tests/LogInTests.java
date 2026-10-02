@@ -55,4 +55,15 @@ public class LogInTests extends WebDriverService {
                 .checkCorrectAccount(testEmail);
     }
 
+    @Test
+    void checkLogOutTest() {
+        page
+                .fillEmail(testEmail)
+                .fillPassword(testPassword)
+                .clickAuthSuccess()
+                .checkIfOpened()
+                .logOut()
+                .checkFieldsEmpty();
+    }
+
 }
